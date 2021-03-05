@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "15"
+
+sudo: required
+services:
+  - docker
+
+before_script:
+  - docker pull armandjanssen/statuschecker || true
+script:
+  - docker build --pull --cache-from armandjanssen/statuschecker --tag armandjanssen/statuschecker .
+
+after_script:
+  - docker images
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+deploy:
+  provider: script
+  script: docker push armandjanssen/statuschecker
+  on:
+    branch: master
