@@ -7,7 +7,7 @@ services:
   - docker
 
 before_script:
-  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+  - echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" --password-stdin
   - docker pull armandjanssen/statuschecker || true
 script:
   - docker build --pull --cache-from armandjanssen/statuschecker --tag armandjanssen/statuschecker .
