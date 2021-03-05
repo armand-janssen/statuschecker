@@ -1,7 +1,11 @@
 # Status Checker
 
-The status checker is a simple tool to check the availability of your services.
 
+
+[![Build Status](https://travis-ci.org/armand-janssen/statuschecker.svg?branch=main)](https://travis-ci.org/armand-janssen/statuschecker)
+
+
+The status checker is a simple tool to check the availability of your services.
 - [Status Checker](#status-checker)
   - [Features](#features)
   - [Roadmap](#roadmap)
@@ -16,6 +20,7 @@ The status checker is a simple tool to check the availability of your services.
 - slack notifications
 
 ## Roadmap
+- Use a winston as logger framework
 - GUI showing jobs
 - GUI for configuration
 - Helm3 template
