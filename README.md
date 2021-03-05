@@ -13,6 +13,7 @@ The status checker is a simple tool to check the availability of your services.
   - [Config example](#config-example)
 - [Docker commands](#docker-commands)
   - [Docker compose example](#docker-compose-example)
+- [Links](#links)
 
 ## Features
 - simple json config
@@ -39,7 +40,7 @@ The status checker is a simple tool to check the availability of your services.
 | expectedHttpStatus          | Yes      | The httpstatus code expected when calling the url                                                                                                                                                                     |
 | expectedText                | No       | Optionally a check can be performed on a string of text on the response of the url. Sometimes a service returns a 200, but actually shows an errorpage. This can be used to check that the expected page is returned. |
 | notification.type           | Yes      | Currently only 1 type of notification is supported: `slack`                                                                                                                                                           |
-| notification.webhook        | Yes      | The url to the slack webhook to which the notifications are send.                                                                                                                                                     |
+| notification.webhook        | Yes      | The url to the [slack webhook](https://api.slack.com/messaging/webhooks) to which the notifications are send.                                                                                                         |
 | notification.interval       | n/a      | When a service is down or back online a notification is sent directly. <br/>With interval you can configure the interval of the reminder notifications when the service is down. Example: every 4 hours.              |
 | notification.interval.unit  | Yes      | One of: hours , minutes, days                                                                                                                                                                                         |
 | notification.interval.value | Yes      | A number larger than 0.                                                                                                                                                                                               |
@@ -85,5 +86,12 @@ services:
     volumes:
       - <YOUR-LOCAL-DIR-HERE>:/usr/src/app/config
 ```
+
+
+# Links
+
+* [Github](https://github.com/armand-janssen/statuschecker)
+* [Docker hub](https://hub.docker.com/r/armandjanssen/statuschecker)
+
 
 
