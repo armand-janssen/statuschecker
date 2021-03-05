@@ -20,4 +20,4 @@ deploy:
   provider: script
   script: docker push armandjanssen/statuschecker
   on:
-    branch: master
+    branch: main
