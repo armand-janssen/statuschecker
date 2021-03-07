@@ -14,7 +14,6 @@ const getData = async (url, timeout) => {
     const response = await axios.get(url, { timeout });
     return { httpStatus: response.status, response: response.data };
   } catch (error) {
-    console.log(`ERROR LOG: ${error.message}`);
     throw new Error(`ERROR calling ${url}: ${error.message}`);
   }
 };
