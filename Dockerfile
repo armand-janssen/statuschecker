@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 # Remove (local) test config, should be added via docker volume
-RUN rm src/config/jobs.json
+RUN rm -f src/config/jobs.json
 
 EXPOSE 80
 CMD [ "node", "src/index.js" ]
