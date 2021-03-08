@@ -21,7 +21,6 @@ The status checker is a simple tool to check the availability of your services.
 - slack notifications
 
 ## Roadmap
-- Use a winston as logger framework
 - GUI showing jobs
 - GUI for configuration
 - Helm3 template
