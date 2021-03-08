@@ -73,17 +73,16 @@ The status checker is a simple tool to check the availability of your services.
 ## Docker compose example
 ```yaml
 version: '2'
-# sudo docker build -t statuschecker .
 services:
-  portainer:
+  statuschecker:
     container_name: statuschecker
-    image: statuschecker
+    image: armandjanssen/statuschecker:0.2
     restart: always
 
     ports:
       - "4455:80"
     volumes:
-      - <YOUR-LOCAL-DIR-HERE>:/usr/src/app/config
+      - <YOUR-LOCAL-DIR-HERE>/jobs.json:/usr/src/app/config/src/jobs.json
 ```
 
 
