@@ -1,7 +1,8 @@
 /**
- *
- * @param {Object} actual
- * @param {Object} expected
+ * Validate that the expected httpStatus and optional text match the actual values.
+ * @param {Object} actual {httpStatus, response}
+ * @param {Object} expected {httpStatus, text}
+ * @throws {Error} when values do not match expectation.
  */
 function validate(actual, expected) {
   if (actual.httpStatus !== expected.httpStatus) {
