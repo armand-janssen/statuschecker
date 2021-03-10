@@ -1,5 +1,5 @@
 const express = require('express');
-
+const logger = require('./logger');
 const checker = require('./jobScheduler');
 
 const app = express();
@@ -16,6 +16,6 @@ app.get('/', (req, res) => {
 // })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  logger.info(`Example app listening at http://localhost:${port}`);
   checker.start();
 });

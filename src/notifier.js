@@ -1,10 +1,12 @@
 const axios = require('axios');
 const { DateTime } = require('luxon');
+const logger = require('./logger');
 const slackMessageCreator = require('./slackMessageCreator');
+
 /**
  * Send a message to slack.
- * @param {object} body
- * @param {string} sessionId
+ * @param {string} slackUrl the slack incoming webhook url
+ * @param {string} content the content to send
  */
 async function sendMessageToSlack(slackUrl, content) {
   const timeout = 2000;
@@ -15,23 +17,31 @@ async function sendMessageToSlack(slackUrl, content) {
   }
 }
 
+/**
+ * Send a notification for a service that is down.
+ * @param {Object} job the job being executed
+ * @param {number} httpStatus the httpStatus of the http request
+ * @param {string} reason the reason the service is down
+ */
 async function notifyServiceDown(job, httpStatus, reason) {
-  console.log(`ERROR *NOTIFY **** ${job.name} - ${reason}`);
+  logger.info(`Sending "service down" message to slack for ${job.name} - reason: ${reason}`);
   const servicename = job.url;
   const since = job.failingSince;
   const content = slackMessageCreator.down(servicename, since, httpStatus, reason);
   sendMessageToSlack(job.notification.webhook, content);
 }
 
+/**
+ * Send a notification for a service that is back online.
+ * @param {Object} job the job being executed
+ * @param {DateTime} now The current DateTime
+ */
 async function notifyBackOnline(job, now) {
-  console.log(`BACK ONLINE *NOTIFY **** ${job.name} `);
+  logger.info(`Sending "service back online" message to slack for ${job.name}`);
   const servicename = job.url;
   const since = job.failingSince;
   let downtime = '';
   const diff = now.diff(DateTime.fromISO(since));
-  console.log(`diff.as('hours') > 0 : ${diff.as('hours') > 0}`);
-  console.log(`typeof diff.as('hours'): ${typeof diff.as('hours')}`);
-  console.log(`diff.as('hours'): ${diff.as('hours')}`);
   if (diff.as('hours') > 1) {
     downtime = `${diff.as('hours').toFixed(0)} hours`;
   } else {
