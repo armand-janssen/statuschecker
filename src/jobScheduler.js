@@ -3,6 +3,7 @@ const scheduler = require('node-schedule');
 const axios = require('axios');
 const { DateTime } = require('luxon');
 const logger = require('./logger');
+const Job = require('./job');
 
 const jobsList = require('./config/jobs.json');
 const notifier = require('./notifier');
@@ -34,14 +35,9 @@ const getData = async (url, timeout) => {
  * @param {string} errorMessage the errorMessage
  */
 async function processAlreadyFailed(now, job, httpStatus, errorMessage) {
-  const lastnotify = DateTime.fromISO(job.lastNotify);
-  const intervalUnit = job.notification.interval.unit;
-  const intervalValue = job.notification.interval.value;
-  const difference = now.diff(lastnotify, intervalUnit);
-
-  if (difference.as(intervalUnit) > intervalValue) {
+  if (job.isTimeForNotification(now)) {
+    job.failed(now);
     notifier.notifyServiceDown(job, httpStatus, errorMessage);
-    job.lastNotify = now.toISO();
   }
 }
 
@@ -51,10 +47,9 @@ async function processAlreadyFailed(now, job, httpStatus, errorMessage) {
  * @param {DateTime} now The current DateTime
  */
 async function processOnline(job, now) {
-  if (job.failingSince) {
+  if (job.hasAlreadyFailed()) {
     await notifier.notifyBackOnline(job, now);
-    delete job.failingSince;
-    delete job.lastNotify;
+    job.backOnline();
   }
 }
 
@@ -66,22 +61,25 @@ async function processOnline(job, now) {
  * @param {string} errorMessage the errorMessage
  */
 async function processFailedFirstTime(now, job, httpStatus, errorMessage) {
-  job.failingSince = now.toISO();
+  job.failed(now.toISO());
   notifier.notifyServiceDown(job, httpStatus, errorMessage);
-  job.lastNotify = now.toISO();
 }
 
 /**
  * Schedule a job that was configured.
  * @param {object} job the job to schedule based on the config
  */
-function schedule(job) {
-  const newJob = scheduler.scheduleJob(job.pattern, async (fireDate) => {
+function schedule(myJob) {
+  const job = new Job(myJob);
+  jobs[job.id] = job;
+
+  const scheduledJob = scheduler.scheduleJob(job.pattern, async (fireDate) => {
     const now = DateTime.now();
+    // const job = jobs[job.id];
+    logger.debug(`Start of schedule: ${job.toString()}`);
     try {
       const { httpStatus, response } = await getData(job.url, job.timeout);
       logger.info(`FireDate: ${fireDate} - id: ${job.id} - name: ${job.name} - url: ${job.url} - httpStatus: ${httpStatus}`);
-      job.lastCheck = now.toISO();
 
       const actual = { httpStatus, response };
       const expected = { httpStatus: job.expectedHttpStatus };
@@ -93,18 +91,21 @@ function schedule(job) {
       processOnline(job, now);
     } catch (error) {
       logger.error(`Error executing job: ${error.message}`);
-      if (job.failingSince) {
+      if (job.hasAlreadyFailed) {
         processAlreadyFailed(now, job, error.httpStatus, error.message);
       } else {
         processFailedFirstTime(now, job, error.httpStatus, error.message);
       }
+    } finally {
+      job.checked(now);
     }
+    // jobs[job.id] = job;
   });
-  const jobEntry = {
-    ...job,
-    job: newJob,
-  };
-  jobs[job.id] = jobEntry;
+  job.scheduledJobCreated(scheduledJob);
+}
+
+async function getJobs() {
+  return Object.values(jobs).map((job) => job.toString());
 }
 
 /**
@@ -116,4 +117,4 @@ async function start() {
   });
 }
 
-module.exports = { start };
+module.exports = { start, getJobs };
