@@ -52,13 +52,15 @@ module.exports = class Job {
   }
 
   hasAlreadyFailed() {
-    logger.debug(`hasAlreadyFailed: ${this.toString()}`);
-    return this.failingSince !== null;
+    const returnValue = this.failingSince !== undefined;
+    logger.debug(`hasAlreadyFailed: ${returnValue} - ${this.toString()}`);
+    return returnValue;
   }
 
   hasFailedFirstTime() {
-    logger.debug(`hasFailedFirstTime: ${this.toString()}`);
-    return this.failingSince === null;
+    const returnValue = this.failingSince === undefined;
+    logger.debug(`hasFailedFirstTime: ${returnValue} - ${this.toString()}`);
+    return returnValue;
   }
 
   toString() {
