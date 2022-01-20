@@ -58,20 +58,24 @@ module.exports = class Job {
   }
 
   hasFailedFirstTime() {
-    const returnValue = this.failingSince === undefined;
+    const returnValue = this.failingSince === null;
     logger.debug(`hasFailedFirstTime: ${returnValue} - ${this.toString()}`);
     return returnValue;
   }
 
-  toString() {
+  summarize() {
     const returnObj = {
       id: this.id,
       name: this.name,
+      url: this.url,
       lastcheck: this.lastcheck?.toISO(),
       failingSince: this.failingSince?.toISO(),
       lastNotify: this.lastNotify?.toISO(),
     };
+    return returnObj;
+  }
 
-    return JSON.stringify(returnObj);
+  toString() {
+    return JSON.stringify(this.summarize());
   }
 };

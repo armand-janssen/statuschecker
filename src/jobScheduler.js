@@ -105,7 +105,7 @@ function schedule(myJob) {
 }
 
 async function getJobs() {
-  return Object.values(jobs).map((job) => job.toString());
+  return Object.values(jobs).map((job) => job.summarize());
 }
 
 /**
