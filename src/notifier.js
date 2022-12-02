@@ -25,9 +25,8 @@ async function sendMessageToSlack(slackUrl, content) {
  */
 async function notifyServiceDown(job, httpStatus, reason) {
   logger.info(`Sending "service down" message to slack for ${job.name} - reason: ${reason}`);
-  const servicename = job.url;
   const since = job.failingSince;
-  const content = slackMessageCreator.down(servicename, since, httpStatus, reason);
+  const content = slackMessageCreator.down(job.name, since, httpStatus, reason, job.url);
   sendMessageToSlack(job.notification.webhook, content);
 }
 
@@ -38,7 +37,6 @@ async function notifyServiceDown(job, httpStatus, reason) {
  */
 async function notifyBackOnline(job, now) {
   logger.info(`Sending "service back online" message to slack for ${job.name}`);
-  const servicename = job.url;
   const since = job.failingSince;
   let downtime = '';
   const diff = now.diff(DateTime.fromISO(since));
@@ -47,7 +45,7 @@ async function notifyBackOnline(job, now) {
   } else {
     downtime = `${diff.as('minutes').toFixed(0)} minutes`;
   }
-  const content = slackMessageCreator.up(servicename, now, downtime);
+  const content = slackMessageCreator.up(job.name, now, downtime, job.url);
   sendMessageToSlack(job.notification.webhook, content);
 }
 

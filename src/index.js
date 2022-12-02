@@ -11,6 +11,6 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(port, () => {
-  logger.info(`Example app listening at http://localhost:${port}`);
+  logger.info(`App listening at http://localhost:${port}`);
   scheduler.start();
 });
