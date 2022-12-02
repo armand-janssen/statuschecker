@@ -20,10 +20,11 @@ const jobs = {};
  */
 const getData = async (url, timeout) => {
   try {
-    const response = await axios.get(url, { timeout });
+    const response = await axios.get(url, { timeout, headers: { 'Accept-Encoding': 'application/json' } });
     return { httpStatus: response.status, response: response.data };
   } catch (error) {
-    throw new Error(`Error while performing http request: ${error.message}`);
+    return { httpStatus: 408, response: `Error while performing http request: ${error.message}` };
+    // throw new Error(`Error while performing http request: ${error.message}`);
   }
 };
 
@@ -75,31 +76,30 @@ function schedule(myJob) {
 
   const scheduledJob = scheduler.scheduleJob(job.pattern, async (fireDate) => {
     const now = DateTime.now();
-    // const job = jobs[job.id];
+    let resultFromCheck = {};
     logger.debug(`Start of schedule: ${job.toString()}`);
     try {
-      const { httpStatus, response } = await getData(job.url, job.timeout);
-      logger.info(`FireDate: ${fireDate} - id: ${job.id} - name: ${job.name} - url: ${job.url} - httpStatus: ${httpStatus}`);
+      resultFromCheck = await getData(job.url, job.timeout);
+      logger.info(`FireDate: ${fireDate} - id: ${job.id} - name: ${job.name} - url: ${job.url} - httpStatus: ${resultFromCheck.httpStatus}`);
 
-      const actual = { httpStatus, response };
       const expected = { httpStatus: job.expectedHttpStatus };
       if (job.expectedText) {
-        expected.text = job.expectedText;
+        expected.response = job.expectedText;
       }
-      responseValidator.validate(actual, expected);
+      responseValidator.validate(resultFromCheck, expected);
 
       processOnline(job, now);
     } catch (error) {
       logger.error(`Error executing job: ${error.message}`);
-      if (job.hasAlreadyFailed) {
-        processAlreadyFailed(now, job, error.httpStatus, error.message);
+
+      if (job.hasAlreadyFailed()) {
+        processAlreadyFailed(now, job, resultFromCheck.httpStatus, error.message);
       } else {
-        processFailedFirstTime(now, job, error.httpStatus, error.message);
+        processFailedFirstTime(now, job, resultFromCheck.httpStatus, `${error.message}`); // - ${resultFromCheck.response}`);
       }
     } finally {
       job.checked(now);
     }
-    // jobs[job.id] = job;
   });
   job.scheduledJobCreated(scheduledJob);
 }

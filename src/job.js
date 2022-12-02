@@ -68,9 +68,9 @@ module.exports = class Job {
       id: this.id,
       name: this.name,
       url: this.url,
-      lastcheck: this.lastcheck?.toISO(),
-      failingSince: this.failingSince?.toISO(),
-      lastNotify: this.lastNotify?.toISO(),
+      lastcheck: this.lastcheck,
+      failingSince: this.failingSince,
+      lastNotify: this.lastNotify,
     };
     return returnObj;
   }

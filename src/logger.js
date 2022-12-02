@@ -8,8 +8,9 @@ const myFormat = printf(({
   // eslint-disable-next-line no-shadow
   level, message, timestamp, ...metadata
 }) => {
-  let msg = `${timestamp} [${level}] : ${message}  -- `;
-  if (metadata) {
+  let msg = `${timestamp} [${level}] : ${message}`;
+  if (metadata && metadata.length > 0) {
+    msg += '  -- ';
     msg += JSON.stringify(metadata);
   }
   return msg;
