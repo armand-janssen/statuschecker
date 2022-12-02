@@ -1,9 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 name: CI-CD
 
-env:
-  IMAGE_NAME: statuschecker
-
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -67,7 +64,7 @@ jobs:
           id: meta
           uses: docker/metadata-action@v4
           with:
-            images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
+            images: armandjanssen/statuschecker
 
         - name: Build and push Docker image
           uses: docker/build-push-action@v3
