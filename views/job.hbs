@@ -21,21 +21,27 @@
         </dd>
       </div>
       <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">Timeout</dt>
+        <dt class="text-sm font-medium text-gray-500">Timeout (miliseconds)</dt>
         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.timeout}}</dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Pattern</dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.pattern}}</dd>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="codeblock">{{job.pattern}}</p>
+        </dd>
       </div>
 
       <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Expected Http Status</dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.expectedHttpStatus}}</dd>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="httpstatus">{{job.expectedHttpStatus}}</p>
+        </dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Expected Text</dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.expectedText}}</dd>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="codeblock">{{job.expectedText}}</p>
+        </dd>
       </div>
 
       <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -47,7 +53,6 @@
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Last checked</dt>
         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-          [[{{job.lastcheck}}]]
           {{#if job.lastcheck}}
           {{{dateFormat job.lastcheck "dddd DD-MM-YYYY HH:mm:ss"}}}
           {{else}}
