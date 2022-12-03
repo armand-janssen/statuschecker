@@ -17,11 +17,11 @@ The status checker is a simple tool to check the availability of your services.
 
 ## Features
 - simple json config
-- no gui (yet)
+- simple gui
 - slack notifications
 
 ## Roadmap
-- GUI showing jobs
+- GUI Darkmode :)
 - GUI for configuration
 - Helm3 template
 - Terraform module
@@ -90,6 +90,8 @@ services:
 
 * [Github](https://github.com/armand-janssen/statuschecker)
 * [Docker hub](https://hub.docker.com/r/armandjanssen/statuschecker)
+* [Tailwinds CSS](https://tailwindcss.com/docs)
+  
 
 
 

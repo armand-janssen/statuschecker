@@ -50,7 +50,7 @@ function up(servicename, since, downtime, url) {
         title_link: url,
         fields: [
           { title: 'Back online since', value: `\`${daysjs(since).format('DD-MM-YYYY HH:mm:ss')}\``, short: false },
-          { title: 'Down time*', value: `\`${downtime}\``, short: false },
+          { title: 'Down time', value: `\`${downtime}\``, short: false },
           { title: 'URL', value: url, short: true },
         ],
       },
