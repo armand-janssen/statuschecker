@@ -1,38 +1,37 @@
 <h1 class="text-red-800 text-5xl mb-3">Status Checker Jobs</h1>
 
+<div class="w-full md:w-5/6 mx-auto p-8">
+  <div class="shadow-md">
+    {{#each jobs}}
+    <div class="tab w-full overflow-hidden border-t">
+      <input class="absolute opacity-0 " id="tab-{{this.id}}" type="checkbox" name="tabs">
+      <label class="block p-5 leading-normal cursor-pointer" for="tab-{{this.id}}">
+        {{#if this.failingSince}}
+        <img src="images/close-box.png" alt="not ok" class="inline">
+        {{else}}
+        <img src="images/checkbox-marked.png" alt="ok" class="inline">
+        {{/if}}
+        {{this.name}}
+      </label>
+      <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+        <p class="p-5">{{> job job=this}}</p>
+      </div>
+    </div>
+    {{/each}}
 
-<!-- component -->
-<div class="md:px-32 py-8 w-full">
-  <div class="shadow overflow-hidden rounded border-b border-gray-200">
-    <table class="min-w-full bg-white">
-      <thead class="bg-gray-800 text-white">
-        <tr>
-          <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">id</th>
-          <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">URL</th>
-          <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Last check</th>
-          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Failing Since</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-700">
-        {{#each jobs}}
-        <tr class="{{bgColorStriped @index}}">
-          <td class=" w-1/3 text-left py-3 px-4 text-blue-800">
-            <a class="text-blue-600 visited:text-purple-600" href="/jobs/{{this.id}}">{{this.id}}</a>
-          </td>
-          <td class="w-1/3 text-left py-3 px-4">{{this.name}}</td>
-          <td class="text-left py-3 px-4">
-            <a class="hover:text-blue-500" href="{{this.url}}">{{this.url}}</a>
-          </td>
-          <td class="text-left py-3 px-4">
-            {{#if this.lastcheck}}
-            {{{dateFormat this.lastcheck "dddd DD-MM-YYYY HH:mm:ss"}}}
-            {{else}}
-            n/a
-            {{/if}}
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-</div>
+    <script>
+      /* Optional Javascript to close the radio button version by clicking it again */
+      var myRadios = document.getElementsByName('tabs2');
+      var setCheck;
+      var x = 0;
+      for (x = 0; x < myRadios.length; x++) {
+        myRadios[x].onclick = function () {
+          if (setCheck != this) {
+            setCheck = this;
+          } else {
+            this.checked = false;
+            setCheck = null;
+          }
+        };
+      }
+    </script>
