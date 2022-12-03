@@ -1,0 +1,87 @@
+<h3 class="text-blue-900 text-s mb-10">
+  <a href="/">Back to overview</a>
+</h3>
+<h1 class="text-red-800 text-5xl mb-3">{{job.name}}</h1>
+
+<div class="overflow-hidden bg-white shadow sm:rounded-lg">
+  <div class="border-t border-gray-200">
+    <dl>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">id</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.id}}</dd>
+      </div>
+      <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Name</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.name}}</dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">URL</dt>
+        <dd class="mt-1 text-sm text-blue-600 sm:col-span-2 sm:mt-0 to-blue-200">
+          <a href="{{job.url}}">{{job.url}}</a>
+        </dd>
+      </div>
+      <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Timeout (miliseconds)</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{job.timeout}}</dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Pattern</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="codeblock">{{job.pattern}}</p>
+        </dd>
+      </div>
+
+      <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Expected Http Status</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="httpstatus">{{job.expectedHttpStatus}}</p>
+        </dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Expected Text</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          <p class="codeblock">{{job.expectedText}}</p>
+        </dd>
+      </div>
+
+      <div class="bg-white-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Notification</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          {{> notification job.notification}}
+        </dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Last checked</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          {{#if job.lastcheck}}
+          {{{dateFormat job.lastcheck "dddd DD-MM-YYYY HH:mm:ss"}}}
+          {{else}}
+          n/a
+          {{/if}}
+      </div>
+
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Failing Since</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          {{#if job.failingSince}}
+          {{{dateFormat job.failingSince "dddd DD-MM-YYYY HH:mm:ss"}}}
+          {{else}}
+          n/a
+          {{/if}}
+        </dd>
+      </div>
+      <div class="bg-gray px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Last notified</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          {{#if job.lastNotify}}
+          {{{dateFormat job.lastNotify "dddd DD-MM-YYYY HH:mm:ss"}}}
+          {{else}}
+          n/a
+          {{/if}}
+        </dd>
+      </div>
+
+
+    </dl>
+  </div>
+</div>

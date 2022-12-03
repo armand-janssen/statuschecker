@@ -10,6 +10,9 @@ module.exports = class Job {
     this.expectedHttpStatus = myJob.expectedHttpStatus;
     this.expectedText = myJob.expectedText;
     this.notification = myJob.notification;
+    this.lastcheck = undefined;
+    this.failingSince = undefined;
+    this.lastNotify = undefined;
   }
 
   scheduledJobCreated(scheduledJob) {
@@ -68,9 +71,14 @@ module.exports = class Job {
       id: this.id,
       name: this.name,
       url: this.url,
+      timeout: this.timeout,
+      pattern: this.pattern,
+      expectedHttpStatus: this.expectedHttpStatus,
+      expectedText: this.expectedText,
       lastcheck: this.lastcheck,
       failingSince: this.failingSince,
       lastNotify: this.lastNotify,
+      notification: this.notification,
     };
     return returnObj;
   }

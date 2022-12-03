@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.codeblock {
+    @apply bg-gray-300;
+    @apply text-gray-900;
+    @apply w-fit p-1;
+}
+
+.httpstatus {
+    @apply bg-orange-300;
+    @apply text-gray-900;
+    @apply w-fit;
+    @apply p-1;
+    @apply border-solid;
+    @apply border-orange-400;
+    @apply border-2;
+}

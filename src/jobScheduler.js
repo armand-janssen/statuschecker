@@ -111,6 +111,11 @@ function schedule(myJob) {
 async function getJobs() {
   return Object.values(jobs).map((job) => job.summarize());
 }
+async function getJob(jobId) {
+  return Object.values(jobs)
+    .filter((job) => job.id === jobId)[0]
+    .summarize();
+}
 
 /**
  * Loop all configured jobs and schedule them.
@@ -121,4 +126,4 @@ async function start() {
   });
 }
 
-module.exports = { start, getJobs };
+module.exports = { start, getJobs, getJob };
